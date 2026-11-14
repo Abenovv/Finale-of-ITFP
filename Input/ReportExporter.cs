@@ -7,9 +7,17 @@ public static class ReportExporter
 {
     public static Result<string> Save(string destination, string csv, string? protectedInputPath = null)
     {
-        ArgumentNullException.ThrowIfNull(csv);
+        return AtomicTextFile.Save(destination, csv, "report", protectedInputPath);
+    }
+}
+
+internal static class AtomicTextFile
+{
+    public static Result<string> Save(string destination, string contents, string document, string? protectedInputPath = null)
+    {
+        ArgumentNullException.ThrowIfNull(contents);
         if (string.IsNullOrWhiteSpace(destination))
-            return Result<string>.Fail("A report destination is required.");
+            return Result<string>.Fail($"A {document} destination is required.");
 
         string? temporaryPath = null;
         string? savedPath = null;
@@ -22,11 +30,11 @@ public static class ReportExporter
                 : StringComparison.Ordinal;
             if (protectedInputPath is not null
                 && string.Equals(fullPath, Path.GetFullPath(protectedInputPath), comparison))
-                return Result<string>.Fail($"Cannot export report to '{destination}': it is the input data file.");
+                return Result<string>.Fail($"Cannot export {document} to '{destination}': it is the input data file.");
 
             string? directory = Path.GetDirectoryName(fullPath);
             if (directory is null)
-                return Result<string>.Fail($"Cannot export report to '{destination}': a file path is required.");
+                return Result<string>.Fail($"Cannot export {document} to '{destination}': a file path is required.");
             Directory.CreateDirectory(directory);
             temporaryPath = Path.Combine(directory, $".planner-report-{Guid.NewGuid():N}.tmp");
 
@@ -34,7 +42,7 @@ public static class ReportExporter
             using (var stream = new FileStream(temporaryPath, FileMode.CreateNew, FileAccess.Write, FileShare.None))
             using (var writer = new StreamWriter(stream, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false)))
             {
-                writer.Write(csv);
+                writer.Write(contents);
             }
 
             // A temporary sibling keeps the final replacement on the same filesystem.
@@ -44,7 +52,7 @@ public static class ReportExporter
         }
         catch (Exception error) when (IsFileFailure(error))
         {
-            errorMessage = $"Cannot export report to '{destination}': {error.Message}";
+            errorMessage = $"Cannot export {document} to '{destination}': {error.Message}";
         }
         finally
         {

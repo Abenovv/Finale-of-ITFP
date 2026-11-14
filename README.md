@@ -1,4 +1,8 @@
-# DailyPlanner — Assignment 8
+# DailyPlanner
+
+<img src="Web/assets/dailyplanner-icon.png" width="72" height="72" alt="DailyPlanner calendar icon">
+
+The final exam branch builds on the Assignment 8 project below. Browser screens are included in this contribution. The C# browser host comes with the budget workflow.
 
 Yerkebulan Abenov, Nurbergen Assan, Amanalina Tumargul and Khalid Ahmad Ahmadi — **IT-2511**.
 
