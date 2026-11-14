@@ -33,6 +33,7 @@ internal static partial class Program
             ("480 minutes is accepted and 481 is rejected", DurationBoundary),
             ("Equal scores use ordinal ID order", TieOrder),
             ("Invalid selection thresholds are rejected", InvalidThreshold),
+            .. CaptureCases(),
             .. OutcomeCases(),
             .. ExtensionCases(),
             .. DeferredCases(),

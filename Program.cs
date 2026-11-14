@@ -6,7 +6,7 @@ using Tracker.Native;
 
 namespace Tracker;
 
-internal static class Program
+internal static partial class Program
 {
     private static readonly DateOnly SampleDay = new(2026, 10, 13);
 
@@ -14,6 +14,7 @@ internal static class Program
     {
         Result<string> outcome = args switch
         {
+            ["--add", .. var rest] => AddTask(rest),
             ["--reports", .. var rest] => Reports(rest),
             ["--native-failure-demo", .. var rest] => Reports(rest, new NativeLoadAdapter((_, _) => throw new DllNotFoundException("Controlled demonstration failure."))),
             ["--error-demo"] or ["--workflow-demo"] => Demonstrate(),
