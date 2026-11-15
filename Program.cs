@@ -15,6 +15,7 @@ internal static partial class Program
         Result<string> outcome = args switch
         {
             ["--add", .. var rest] => AddTask(rest),
+            ["--reschedule", .. var rest] => RescheduleTask(rest),
             ["--reports", .. var rest] => Reports(rest),
             ["--native-failure-demo", .. var rest] => Reports(rest, new NativeLoadAdapter((_, _) => throw new DllNotFoundException("Controlled demonstration failure."))),
             ["--error-demo"] or ["--workflow-demo"] => Demonstrate(),
