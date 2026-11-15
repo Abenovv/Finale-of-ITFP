@@ -16,6 +16,7 @@ internal static partial class Program
         {
             ["--add", .. var rest] => AddTask(rest),
             ["--reschedule", .. var rest] => RescheduleTask(rest),
+            ["--complete", .. var rest] => CompleteTask(rest),
             ["--reports", .. var rest] => Reports(rest),
             ["--native-failure-demo", .. var rest] => Reports(rest, new NativeLoadAdapter((_, _) => throw new DllNotFoundException("Controlled demonstration failure."))),
             ["--error-demo"] or ["--workflow-demo"] => Demonstrate(),

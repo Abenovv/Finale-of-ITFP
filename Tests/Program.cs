@@ -35,6 +35,7 @@ internal static partial class Program
             ("Invalid selection thresholds are rejected", InvalidThreshold),
             .. CaptureCases(),
             .. RescheduleCases(),
+            .. CompletionCases(),
             .. OutcomeCases(),
             .. ExtensionCases(),
             .. DeferredCases(),
