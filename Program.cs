@@ -10,13 +10,17 @@ internal static partial class Program
 {
     private static readonly DateOnly SampleDay = new(2026, 10, 13);
 
-    private static int Main(string[] args)
+    private static async Task<int> Main(string[] args)
     {
+        if (args is ["--web", .. var webArgs])
+            return await Web.PlannerWeb.Run(webArgs);
+
         Result<string> outcome = args switch
         {
             ["--add", .. var rest] => AddTask(rest),
             ["--reschedule", .. var rest] => RescheduleTask(rest),
             ["--complete", .. var rest] => CompleteTask(rest),
+            ["--fit", .. var rest] => FitBudget(rest),
             ["--reports", .. var rest] => Reports(rest),
             ["--native-failure-demo", .. var rest] => Reports(rest, new NativeLoadAdapter((_, _) => throw new DllNotFoundException("Controlled demonstration failure."))),
             ["--error-demo"] or ["--workflow-demo"] => Demonstrate(),
