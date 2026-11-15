@@ -34,6 +34,7 @@ internal static partial class Program
             ("Equal scores use ordinal ID order", TieOrder),
             ("Invalid selection thresholds are rejected", InvalidThreshold),
             .. CaptureCases(),
+            .. RescheduleCases(),
             .. OutcomeCases(),
             .. ExtensionCases(),
             .. DeferredCases(),
