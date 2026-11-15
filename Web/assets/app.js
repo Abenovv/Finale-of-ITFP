@@ -28,6 +28,9 @@ function element(tag, className, text) {
 }
 
 async function request(url, { data, signal } = {}) {
+  if (typeof globalThis.dailyPlannerBrowserRequest === 'function') {
+    return globalThis.dailyPlannerBrowserRequest(url, { data, signal });
+  }
   const options = { signal };
   if (data) {
     options.method = 'POST';

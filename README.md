@@ -11,6 +11,8 @@ Source archive commit: `$Format:%H$`. In a Git checkout, use `git rev-parse HEAD
 
 ## Run
 
+Try the [browser demo](https://abenovv.github.io/Finale-of-ITFP/) with sample tasks and browser storage. The local app below runs the C# workflows, JSON file storage, and native C integration.
+
 Use .NET SDK 10.0.401. Run these commands from the folder containing `DailyPlanner.sln`:
 
 ```sh
