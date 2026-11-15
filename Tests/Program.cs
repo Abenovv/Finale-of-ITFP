@@ -36,6 +36,7 @@ internal static partial class Program
             .. CaptureCases(),
             .. RescheduleCases(),
             .. CompletionCases(),
+            .. BudgetCases(),
             .. OutcomeCases(),
             .. ExtensionCases(),
             .. DeferredCases(),

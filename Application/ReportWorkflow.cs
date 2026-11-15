@@ -15,18 +15,24 @@ public static class ReportWorkflow
     public static Result<ReportRun> Run(string inputPath, string exportPath, DateOnly day,
         int minimumImportance, int availableMinutes, NativeLoadAdapter? native = null)
     {
+        return Generate(inputPath, day, minimumImportance, availableMinutes, native)
+            .Bind(reports => ReportExporter.Save(exportPath, ReportPresentation.ToCsv(reports), inputPath)
+                .Map(path => new ReportRun(reports, path)));
+    }
+
+    public static Result<ReportBundle> Generate(string inputPath, DateOnly day,
+        int minimumImportance, int availableMinutes, NativeLoadAdapter? native = null)
+    {
         if (minimumImportance is < 1 or > 5)
-            return Result<ReportRun>.Fail("Report minimum importance must be from 1 to 5.");
+            return Result<ReportBundle>.Fail("Report minimum importance must be from 1 to 5.");
         if (availableMinutes is < 1 or > 480)
-            return Result<ReportRun>.Fail("Report available minutes must be from 1 to 480.");
+            return Result<ReportBundle>.Fail("Report available minutes must be from 1 to 480.");
         if (day == DateOnly.MaxValue)
-            return Result<ReportRun>.Fail("Report date must allow the following day in its workload window.");
+            return Result<ReportBundle>.Fail("Report date must allow the following day in its workload window.");
 
         var adapter = native ?? new NativeLoadAdapter();
         return TaskFile.Load(inputPath)
-            .Bind(tasks => CreateReports(tasks, day, minimumImportance, availableMinutes, adapter))
-            .Bind(reports => ReportExporter.Save(exportPath, ReportPresentation.ToCsv(reports), inputPath)
-                .Map(path => new ReportRun(reports, path)));
+            .Bind(tasks => CreateReports(tasks, day, minimumImportance, availableMinutes, adapter));
     }
 
     private static Result<ReportBundle> CreateReports(IReadOnlyList<TaskItem> tasks, DateOnly day,

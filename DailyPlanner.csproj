@@ -8,6 +8,10 @@
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Program.cs;Domain/**/*.cs;Input/**/*.cs;native/**/*.cs;Application/**/*.cs" />
+    <Compile Include="Program.cs;Domain/**/*.cs;Input/**/*.cs;native/**/*.cs;Application/**/*.cs;Web/*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <None Update="Web/assets/**;samples/tasks.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
